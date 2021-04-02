@@ -1,4 +1,4 @@
-let money       = 1500000;
+let money       = 500000;
 let income      = 'Бизнес, Фриланс';
 let addExpenses = 'Питание, Проживание, Проезд, Одежда, Комуналка';
 let deposit     = true;
@@ -16,5 +16,5 @@ console.log(`Цель заработать ${mission} рублей`);
 
 console.log( addExpenses.toLowerCase().split(', ') );
 
-const budgetDay = 40000;  
+const budgetDay = money / 30;  
 console.log('budgetDay: ', budgetDay);
