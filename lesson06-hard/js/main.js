@@ -18,7 +18,7 @@ if (start) {
     let bet = prompt('Начинаем! Введите Вашу ставку в рублях');
     while (!isNumber(bet)) bet = prompt('Начинаем! Введите Вашу ставку в рублях');
 
-    const guessNum = 23;
+    const guessNum = Math.ceil(Math.random() * 100);
     let attempts = 10;
 
     const startGame = () => {
@@ -35,10 +35,10 @@ if (start) {
           const intNum = +userNum;
 
           if (intNum > guessNum) {
-            isMore();
+            isMore(attempts, startGame);
           } else if (intNum < guessNum) {
-            isLess();
-          } else if (confirm('Поздравляю Вы выиграли ${bet * 2} рублей! Хотели бы сыграть еще?')) {
+            isLess(attempts, startGame);
+          } else if (confirm(`Поздравляю Вы выиграли ${bet * 2} рублей! Хотели бы сыграть еще?`)) {
             return guessNumber();
           } else {
             return alert(`Игра закончена, поздравляю Вы выиграли ${bet * 2} рублей!`);
@@ -51,16 +51,17 @@ if (start) {
       }
     };
     startGame();
-
-    function isMore() {
-      alert(`Загаданное число меньше, осталось ${--attempts} попыток`);
-      return startGame();
-    }
-
-    function isLess() {
-      alert(`Загаданное число больше, осталось ${--attempts} попыток`);
-      return startGame();
-    }
   };
   guessNumber(); 
+
 } else alert('А жаль, всего доброго!');
+
+function isMore(attempt, start) {
+  alert(`Загаданное число меньше, осталось ${--attempt} попыток`);
+  return start();
+}
+
+function isLess(attempt, start) {
+  alert(`Загаданное число больше, осталось ${--attempt} попыток`);
+  return start();
+}
