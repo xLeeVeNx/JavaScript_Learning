@@ -12,16 +12,16 @@ const isNumber = (num) => {
 let start = confirm('Вы попали в игру угадай число, играем?');
 if (start) {
   alert(`Правила игры. Загадывается случайное число в диапозоне от 1 до 100 и Вы должны угадать его. 
-У вас есть 10 попыток. В случае, если Вы угадали число, Ваша ставка удваивается, иначе же ставка сгорает.`);
+У вас есть 5 попыток. В случае, если Вы угадали число, Ваша ставка удваивается, иначе же ставка сгорает.`);
 
   const guessNumber = () => {
     let bet = prompt('Начинаем! Введите Вашу ставку в рублях');
     while (!isNumber(bet)) bet = prompt('Начинаем! Введите Вашу ставку в рублях');
 
     const guessNum = Math.ceil(Math.random() * 100);
-    let attempts = 10;
+    let attempts = 5;
 
-    const startGame = () => {
+    const startGame = (attempts = 5) => {
       if (attempts) {
 
         let userNum = prompt('Угадай число от 1 до 100');
@@ -53,15 +53,14 @@ if (start) {
     startGame();
   };
   guessNumber(); 
-
 } else alert('А жаль, всего доброго!');
 
-function isMore(attempt, start) {
-  alert(`Загаданное число меньше, осталось ${--attempt} попыток`);
-  return start();
+function isMore(attempts, startGame) {
+  alert(`Загаданное число меньше, осталось ${--attempts} попыток`);
+  return startGame(attempts);
 }
 
-function isLess(attempt, start) {
-  alert(`Загаданное число больше, осталось ${--attempt} попыток`);
-  return start();
+function isLess(attempts, startGame) {
+  alert(`Загаданное число больше, осталось ${--attempts} попыток`);
+  return startGame(attempts);
 }
