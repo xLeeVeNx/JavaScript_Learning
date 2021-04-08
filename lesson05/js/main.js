@@ -5,18 +5,18 @@ const isNumber = (n) => {
 };
 
 //Объявление ключевых переменных
-const mission   = 7000000;
 let money;
-let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-let deposit     = confirm('Есть ли у вас депозит в банке?');
-
 const start = () => {
   do {
-    money = prompt('Ваш месячный доход?');
-  }
-  while(!isNumber(money));
+    money = prompt("Ваш месячный доход?");
+  } while (!isNumber(money));
 };
 start();
+
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+let deposit     = confirm('Есть ли у вас депозит в банке?');
+const mission   = 7000000;
+
 
 //TypeOf переменных
 showTypeOf(money);
@@ -29,12 +29,15 @@ function showTypeOf(elem) {
 
 //Обязательные рассходы
 let amount1, amount2;
+let expenses1, expenses2;
 
 const getExpensesMonth = () => {
   while (!isNumber(amount1)) {
+    expenses1 = prompt('Перечислите обязательные расходы за месяц: №1');
     amount1 = prompt('Во сколько это обойдется? #1');
   }
   while (!isNumber(amount2)) {
+    expenses1 = prompt('Перечислите обязательные расходы за месяц: №2');
     amount2 = prompt('Во сколько это обойдется? #2');
   }
 
