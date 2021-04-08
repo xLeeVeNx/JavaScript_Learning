@@ -8,8 +8,9 @@ for (let i = 0; i < arr.length; i++) {
 }
 
 //Второе задание
+let print;
 for (let i = 2; i <= 100; i++) {
-  let print = 1;
+  print = 1;
   for (let j = 2; (j <= Math.sqrt(i)) && (print === 1); j++) {
     if (i % j === 0) print = 0;
   }
