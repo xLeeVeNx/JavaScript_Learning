@@ -94,3 +94,8 @@ console.log(appData.getTargetMonth());
 
 //Определение статуса зарплаты
 console.log(appData.getStatusIncome(appData.budgetDay));
+
+//Содержание программы
+for (let key in appData) {
+  console.log('Наша программа включает в себя данные: ' + key + ': ' + appData[key]);
+}
