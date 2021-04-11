@@ -48,7 +48,10 @@ let appData = {
       appData.income[itemIncome] = cashIncome;
     }
 
-    let strAddExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+    let strAddExpenses = '';
+    while ( !isString(strAddExpenses) ) {
+      strAddExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+    }
 
     const addExpenses = strAddExpenses.split(',');
     appData.addExpenses = addExpenses.map(current => {
