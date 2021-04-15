@@ -149,7 +149,7 @@ let appData = {
     expensesItems.forEach((item) => {
       let expensesInputTitle = item.querySelector('.expenses-title');
       expensesInputTitle.addEventListener('input', () => {
-        expensesInputTitle.value = expensesInputTitle.value.replace(/[^а-яА-Я\d\.\,\;]/, '');
+        expensesInputTitle.value = expensesInputTitle.value.replace(/[^а-яА-Я\.\,\;]/, '');
       });
 
       let expensesInputCash = item.querySelector('.expenses-amount');
@@ -163,7 +163,7 @@ let appData = {
     incomeItems.forEach((item) => {
       let incomeInputTitle = item.querySelector('.income-title');
       incomeInputTitle.addEventListener('input', () => {
-        incomeInputTitle.value = incomeInputTitle.value.replace(/[^а-яА-Я\d\.\,\;]/, '');
+        incomeInputTitle.value = incomeInputTitle.value.replace(/[^а-яА-Я\.\,\;]/, '');
       });
 
       let incomeInputCash = item.querySelector('.income-amount');
