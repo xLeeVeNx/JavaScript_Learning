@@ -76,7 +76,7 @@ let appData = {
   },
 
   addExpensesBlock: () => {
-    const cloneExpensesItems = expensesItems[0].cloneNode(true);
+    const cloneExpensesItems  = expensesItems[0].cloneNode(true);
     expensesItems[0].parentNode.insertBefore(cloneExpensesItems, addExpensesBtn);
     expensesItems = document.querySelectorAll('.expenses-items');
     if (expensesItems.length > 9) {
@@ -193,6 +193,8 @@ let appData = {
     if ( isNumber(salaryAmount.value) ) {
       calculateBtn.removeAttribute('disabled');
       calculateBtn.style.cursor = 'pointer';
+    } else {
+      appData.notAllowClick();
     }
   },
 };
