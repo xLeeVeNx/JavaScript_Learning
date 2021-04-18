@@ -100,7 +100,7 @@ const appData = {
       appData.setDisabled(item);
     });
 
-    appData.setDisabled(addExpensesBtn);
+    appData.setDisabled(addExpensesBtn)
     appData.setDisabled(addIncomeBtn);
     appData.setDisabled(depositCheck);
   },
