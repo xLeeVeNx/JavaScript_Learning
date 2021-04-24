@@ -6,6 +6,7 @@ window.addEventListener('DOMContentLoaded', function () {
     else return number;
   };
 
+  // Animation
   const popupOpenAnimation = () => {
     const popup = document.querySelector('.popup-content');
     let opacity = 0;
@@ -65,19 +66,24 @@ window.addEventListener('DOMContentLoaded', function () {
     // DOM-elements
     const timerSeconds = document.querySelector('#timer-seconds');
     const timerMinutes = document.querySelector('#timer-minutes');
-    const timerHours   = document.querySelector('#timer-hours');
+    const timerHours = document.querySelector('#timer-hours');
 
     // Timer's logic
     const getTimerRemainder = () => {
       const dateStop = new Date(deadline).getTime();
-      let   dateNow  = new Date().getTime();
-  
-      let timerRemainder = (dateStop - dateNow) / 1000;
-      let seconds        = Math.floor(timerRemainder % 60);
-      let minutes        = Math.floor( (timerRemainder / 60) % 60 );
-      let hours          = Math.floor(timerRemainder / 60 / 60);
+      let dateNow = new Date().getTime();
 
-      return {timerRemainder, seconds, minutes, hours};
+      let timerRemainder = (dateStop - dateNow) / 1000;
+      let seconds = Math.floor(timerRemainder % 60);
+      let minutes = Math.floor((timerRemainder / 60) % 60);
+      let hours = Math.floor(timerRemainder / 60 / 60);
+
+      return {
+        timerRemainder,
+        seconds,
+        minutes,
+        hours
+      };
     };
 
     let idUpdateTimer = 0;
@@ -87,14 +93,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
       timerSeconds.textContent = addZero(timerResult.seconds);
       timerMinutes.textContent = addZero(timerResult.minutes);
-      timerHours.textContent   = addZero(timerResult.hours);
+      timerHours.textContent = addZero(timerResult.hours);
 
       if (timerResult.timerRemainder < 0) {
         clearInterval(idUpdateTimer);
 
         timerSeconds.textContent = '00';
         timerMinutes.textContent = '00';
-        timerHours.textContent   = '00';
+        timerHours.textContent = '00';
       }
     };
 
@@ -105,25 +111,48 @@ window.addEventListener('DOMContentLoaded', function () {
 
   // Menu
   const toggleMenu = () => {
-    const menuBtn   = document.querySelector('.menu');
-    const menuList  = document.querySelector('menu');
-    const closeBtn  = document.querySelector('.close-btn');
+    const menuBtn = document.querySelector('.menu');
+    const menuList = document.querySelector('menu');
+    const closeBtn = document.querySelector('.close-btn');
     const menuItems = menuList.querySelectorAll('li');
+    const headerLink = document.querySelector('a[href="#service-block"]');
 
     const handlerMenu = () => {
       menuList.classList.toggle('active-menu');
     };
 
+    const smoothScroll = (item) => {
+      const element = document.querySelector(item.querySelector('a').getAttribute('href'));
+
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    };
+
     menuBtn.addEventListener('click', handlerMenu);
     closeBtn.addEventListener('click', handlerMenu);
+    headerLink.addEventListener('click', (event) => {
+      event.preventDefault();
 
-    menuItems.forEach( item => item.addEventListener('click', handlerMenu) );
+      document.querySelector('#service-block').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
+
+    menuItems.forEach(item => item.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      handlerMenu();
+      smoothScroll(item);
+    }));
   };
 
   // PopUp
   const togglePopUp = () => {
-    const popup         = document.querySelector('.popup');
-    const popupOpenBtn  = document.querySelectorAll('.popup-btn');
+    const popup = document.querySelector('.popup');
+    const popupOpenBtn = document.querySelectorAll('.popup-btn');
     const popupCloseBtn = document.querySelectorAll('.popup-close');
 
     popupOpenBtn.forEach((item) =>
