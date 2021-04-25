@@ -128,13 +128,15 @@ window.addEventListener('DOMContentLoaded', function () {
       menuList.classList.toggle('active-menu');
     };
 
-    menuBtn.addEventListener('click', handlerMenu);
-
-    menuList.addEventListener('click', event => {
+    document.body.addEventListener('click', event => {
       let target = event.target;
 
       if (target.classList.contains('close-btn')) {
         handlerMenu();
+      } else if (target.closest('.menu')) {
+        handlerMenu();
+      } else if (!target.closest('.active-menu')) {
+        menuList.classList.remove('active-menu');
       } else {
         menuLinks.forEach(item => {
           if (item === target) {
