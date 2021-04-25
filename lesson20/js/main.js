@@ -61,6 +61,15 @@ window.addEventListener('DOMContentLoaded', function () {
     animationId = requestAnimationFrame(animate);
   };
 
+  const smoothScroll = (item) => {
+    const element = document.querySelector(item.getAttribute('href'));
+
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
+
   // Timer
   const timer = (deadline) => {
     // DOM-elements
@@ -113,63 +122,96 @@ window.addEventListener('DOMContentLoaded', function () {
   const toggleMenu = () => {
     const menuBtn = document.querySelector('.menu');
     const menuList = document.querySelector('menu');
-    const closeBtn = document.querySelector('.close-btn');
     const menuLinks = menuList.querySelectorAll('li>a');
-    const headerLink = document.querySelector('a[href="#service-block"]');
 
     const handlerMenu = () => {
       menuList.classList.toggle('active-menu');
     };
 
-    const smoothScroll = (item) => {
-      const element = document.querySelector(item.getAttribute('href')); 
-
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    };
-
     menuBtn.addEventListener('click', handlerMenu);
-    closeBtn.addEventListener('click', handlerMenu);
-    headerLink.addEventListener('click', (event) => {
-      event.preventDefault();
 
-      document.querySelector('#service-block').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+    menuList.addEventListener('click', event => {
+      let target = event.target;
+
+      if (target.classList.contains('close-btn')) {
+        handlerMenu();
+      } else {
+        menuLinks.forEach(item => {
+          if (item === target) {
+            event.preventDefault();
+
+            handlerMenu();
+            smoothScroll(item);
+          }
+        });
+      }
     });
-
-    menuLinks.forEach(item => item.addEventListener('click', (event) => {
-      event.preventDefault();
-
-      handlerMenu();
-      smoothScroll(item);
-    }));
   };
+
+  document.querySelector('a[href="#service-block"]').addEventListener('click', event => {
+    event.preventDefault();
+
+    smoothScroll(event.target.closest('a[href="#service-block"]'));
+  });
 
   // PopUp
   const togglePopUp = () => {
     const popup = document.querySelector('.popup');
     const popupOpenBtn = document.querySelectorAll('.popup-btn');
-    const popupCloseBtn = document.querySelectorAll('.popup-close');
 
     popupOpenBtn.forEach((item) =>
       item.addEventListener('click', () => {
         popup.style.display = 'block';
-        if (screen.width >= 768) popupOpenAnimation();
+        popupOpenAnimation();
       })
     );
 
-    popupCloseBtn.forEach((item) =>
-      item.addEventListener('click', () => {
-        if (screen.width >= 768) popupCloseAnimation();
-        else {
-          popup.style.display = 'none';
+    popup.addEventListener('click', event => {
+      let target = event.target;
+
+      if (target.classList.contains('popup-close')) {
+        popupCloseAnimation();
+      } else {
+        target = target.closest('.popup-content');
+
+        if (!target) {
+          popupCloseAnimation();
         }
-      })
-    );
+      }
+
+    });
+  };
+
+  // Tabs
+  const tabs = () => {
+    const tabHeader = document.querySelector('.service-header');
+    const tab = tabHeader.querySelectorAll('.service-header-tab');
+    const tabContent = document.querySelectorAll('.service-tab');
+
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
+        } else {
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
+        }
+      }
+    };
+
+    tabHeader.addEventListener('click', event => {
+      let target = event.target;
+      target = target.closest('.service-header-tab');
+
+      if (target) {
+        tab.forEach((item, i) => {
+          if (item === target) {
+            toggleTabContent(i);
+          }
+        });
+      }
+    });
   };
 
   const deadline = new Date(2021, 3, 24, 23, 59);
@@ -178,4 +220,6 @@ window.addEventListener('DOMContentLoaded', function () {
   toggleMenu();
 
   togglePopUp();
+
+  tabs();
 });
