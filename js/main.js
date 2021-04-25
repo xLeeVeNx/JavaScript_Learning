@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', function () {
       } else {
         cancelAnimationFrame(animationId);
         popup.style.opacity = 1;
-        popup.parentNode.style.backgroundColor = `rgba(0,0,0,0.5})`;
+        popup.parentNode.style.backgroundColor = `rgba(0,0,0,0.5)`;
       }
     };
 
@@ -114,7 +114,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const menuBtn = document.querySelector('.menu');
     const menuList = document.querySelector('menu');
     const closeBtn = document.querySelector('.close-btn');
-    const menuItems = menuList.querySelectorAll('li');
+    const menuLinks = menuList.querySelectorAll('li>a');
     const headerLink = document.querySelector('a[href="#service-block"]');
 
     const handlerMenu = () => {
@@ -122,7 +122,7 @@ window.addEventListener('DOMContentLoaded', function () {
     };
 
     const smoothScroll = (item) => {
-      const element = document.querySelector(item.querySelector('a').getAttribute('href'));
+      const element = document.querySelector(item.getAttribute('href')); 
 
       element.scrollIntoView({
         behavior: 'smooth',
@@ -141,7 +141,7 @@ window.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    menuItems.forEach(item => item.addEventListener('click', (event) => {
+    menuLinks.forEach(item => item.addEventListener('click', (event) => {
       event.preventDefault();
 
       handlerMenu();
