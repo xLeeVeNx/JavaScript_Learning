@@ -114,13 +114,14 @@ class Todo {
     let animateId;
 
     const animate = () => {
-      if (transform > -200) {
-        transform -= 2.5;
+      if (transform > -100) {
+        transform -= 3;
 
         target.style.transform = `translateX(${transform}%)`;
 
         animateId = requestAnimationFrame(animate);
       } else {
+        console.log(new Date().getTime() - start);
         cancelAnimationFrame(animateId);
       }
     };
@@ -141,7 +142,7 @@ class Todo {
           }
 
           this.render();
-        }, 560);
+        }, 250);
       }
     });
   }
