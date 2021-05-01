@@ -133,6 +133,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
       if (target.classList.contains('close-btn')) {
         handlerMenu();
+      } else if (target.closest('a[href="#service-block"]')) {
+        event.preventDefault();
+        smoothScroll(event.target.closest('a[href="#service-block"]'));
       } else if (target.closest('.menu')) {
         handlerMenu();
       } else if (!target.closest('.active-menu')) {
@@ -149,12 +152,6 @@ window.addEventListener('DOMContentLoaded', function () {
       }
     });
   };
-
-  document.querySelector('a[href="#service-block"]').addEventListener('click', event => {
-    event.preventDefault();
-
-    smoothScroll(event.target.closest('a[href="#service-block"]'));
-  });
 
   // PopUp
   const togglePopUp = () => {
@@ -216,6 +213,7 @@ window.addEventListener('DOMContentLoaded', function () {
     });
   };
 
+  // Slider
   const slider = () => {
     const sliderWrapper   = document.querySelector('.portfolio-content');
     const sliderItems     = document.querySelectorAll('.portfolio-item');
@@ -318,7 +316,47 @@ window.addEventListener('DOMContentLoaded', function () {
     }); 
   };
 
-  const deadline = new Date(2021, 3, 24, 23, 59);
+  // Change comamnd person's image
+  const commandPhoto = () => {
+    document.querySelector('.command').addEventListener('mouseover', event => {
+      let target = event.target;
+
+      if (target.classList.contains('command__photo')) {
+        [target.src, target.dataset.img] = [target.dataset.img, target.src];
+      }
+    });
+
+    document.querySelector('.command').addEventListener('mouseout', event => {
+      let target = event.target;
+
+      if (target.classList.contains('command__photo')) {
+        [target.src, target.dataset.img] = [target.dataset.img, target.src];
+      }
+    });
+  };
+
+  const checkInputs = () => {
+    document.body.addEventListener('input', event => {
+      let target = event.target;
+
+      if (target.classList.contains('calc-item')) {
+        target.value = target.value.replace(/\D/, '');
+      } else if (target.matches('input[name="user_name"]') || target.matches('input[name="user_message"]')) {
+        target.value = target.value.replace(/[^а-яё-\s]/gi, '');
+      } else if (target.matches('input[name="user_email"]')) {
+        target.value = target.value.replace(/[^a-z@-_.!~\*']/gi, '');
+      } else if (target.matches('input[name="user_phone"]')) {
+        target.value = target.value.replace(/[^\d\(\)-]/gi, '');
+      }
+    });
+
+    document.querySelectorAll('input[name="user_name"]').forEach(item => item.addEventListener('blur', event => {
+      event.target.value = event.target.value[0].toUpperCase() + event.target.value.slice(1).toLowerCase();
+      event.target.value = event.target.value.replace(/[^[А-Яа-я]/gi, '');
+    }));
+  };
+
+  const deadline = new Date(2021, 4, 1, 23, 59);
   timer(deadline);
 
   toggleMenu();
@@ -328,4 +366,8 @@ window.addEventListener('DOMContentLoaded', function () {
   tabs();
 
   slider();
+
+  commandPhoto();
+
+  checkInputs();
 });
