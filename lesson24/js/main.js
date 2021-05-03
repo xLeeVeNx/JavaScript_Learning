@@ -388,9 +388,10 @@ window.addEventListener('DOMContentLoaded', function () {
       }
 
       let count = 0;
+      const value = Math.round(total * 4 / 1000);
       const id = setInterval(() => {
         if (count < total) {
-          count += 2;
+          count += value;
           result.textContent = count;
         } else {
           clearInterval(id);
