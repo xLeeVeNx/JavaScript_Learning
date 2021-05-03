@@ -351,8 +351,10 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelectorAll('input[name="user_name"]').forEach(item => item.addEventListener('blur', event => {
-      event.target.value = event.target.value[0].toUpperCase() + event.target.value.slice(1).toLowerCase();
-      event.target.value = event.target.value.replace(/[^[А-Яа-я]/gi, '');
+      if (event.target.value) {
+        event.target.value = event.target.value[0].toUpperCase() + event.target.value.slice(1).toLowerCase();
+        event.target.value = event.target.value.replace(/[^[А-Яа-я]/gi, '');
+      }
     }));
   };
 

@@ -70,14 +70,14 @@
       <div class="main-form-input container">
         <div class="row">
           <div class="col-12 col-lg-4">
-            <input type="text" class="form-name" id="form1-name" name="user_name" placeholder="Ваше имя" required>
+            <input type="text" class="form-name" id="form1-name" name="user_name" placeholder="Ваше имя">
           </div>
           <div class="col-12 col-lg-4">
-            <input type="email" class="form-email" id="form1-email" name="user_email" placeholder="E-mail">
+            <input type="text" class="form-email" id="form1-email" name="user_email" placeholder="E-mail">
           </div>
           <div class="col-12 col-lg-4">
-            <input type="tel" class="form-phone" id="form1-phone" name="user_phone" placeholder="Номер телефона"
-              required>
+            <input type="text" class="form-phone" id="form1-phone" name="user_phone" placeholder="Номер телефона"
+              >
           </div>
         </div>
       </div>
@@ -404,7 +404,33 @@
     </div>
   </div>
 
+  <script src="js/validator.js"></script>
   <script src="js/main.js"></script>
+
+  <script>
+    const valid = new Validator({
+      selector: '#form1',
+      pattern: {},
+      method: {
+        'phone': [
+          ['notEmpty'],
+          ['pattern', 'phone']
+        ],
+
+        'email': [
+          ['notEmpty'],
+          ['pattern', 'email']
+        ],
+
+        'name': [
+          ['notEmpty'],
+          ['pattern', 'name']
+        ]
+      }
+    });
+
+    valid.init();
+  </script>
 </body>
 
 </html>
