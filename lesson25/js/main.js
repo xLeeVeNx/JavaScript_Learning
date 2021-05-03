@@ -346,7 +346,7 @@ window.addEventListener('DOMContentLoaded', function () {
       } else if (target.matches('input[name="user_email"]')) {
         target.value = target.value.replace(/[^a-z@-_.!~\*']/gi, '');
       } else if (target.matches('input[name="user_phone"]')) {
-        target.value = target.value.replace(/[^\d\(\)-]/gi, '');
+        target.value = target.value.replace(/[^\+\d\(\)-]/gi, '');
       }
     });
 

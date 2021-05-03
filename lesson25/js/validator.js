@@ -18,10 +18,11 @@ class Validator {
 
   init() {
     this.setPattern();
-    this.addStyles();
     this.elementsForm.forEach(item => item.addEventListener('change', this.check.bind(this)));
     this.form.addEventListener('submit', event => {
-      this.elementsForm.forEach(item => this.check({target: item}));
+      this.elementsForm.forEach(item => this.check({
+        target: item
+      }));
       if (this.errors.size) {
         event.preventDefault();
       }
@@ -71,43 +72,20 @@ class Validator {
     elem.classList.remove('success');
     elem.classList.add('error');
 
-    if (elem.nextElementSibling && elem.nextElementSibling.classList.contains('validator-error')) {
+    if (elem.placeholder === 'Неккоректные данные') {
       return;
     }
 
-    const errorDiv = document.createElement('div');
-    errorDiv.textContent = 'Ошибка в этом поле';
-    errorDiv.classList.add('validator-error');
-    elem.insertAdjacentElement('afterend', errorDiv);
+    elem.placeholder = 'Неккоректные данные';
   }
 
   showSuccess(elem) {
     elem.classList.remove('error');
     elem.classList.add('success');
 
-    if (elem.nextElementSibling && elem.nextElementSibling.classList.contains('validator-error')) {
-      elem.nextElementSibling.remove();
+    if (elem.placeholder === 'Неккоректные данные') {
+      elem.placeholder = '';
     }
-  }
-
-  addStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-      input.success {
-        border: 2px solid green
-      }
-
-      input.error {
-        border: 2px solid red
-      }
-
-      .validator-error {
-        font-size: 12px;
-        font-family: sans-serif;
-        color: red
-      }
-    `;
-    document.head.appendChild(style);
   }
 
   setPattern() {
@@ -120,7 +98,79 @@ class Validator {
     }
 
     if (!this.pattern.name) {
-      this.pattern.name = /^[А-Яа-я]$/;
+      this.pattern.name = /[А-Яа-я]$/;
     }
   }
 }
+
+const form1 = new Validator({
+  selector: '#form1',
+  pattern: {},
+  method: {
+    'form1-phone': [
+      ['notEmpty'],
+      ['pattern', 'phone']
+    ],
+
+    'form1-email': [
+      ['notEmpty'],
+      ['pattern', 'email']
+    ],
+
+    'form1-name': [
+      ['notEmpty'],
+      ['pattern', 'name']
+    ],
+  }
+});
+
+const form2 = new Validator({
+  selector: '#form2',
+  pattern: {},
+  method: {
+    'form2-phone': [
+      ['notEmpty'],
+      ['pattern', 'phone']
+    ],
+
+    'form2-email': [
+      ['notEmpty'],
+      ['pattern', 'email']
+    ],
+
+    'form2-name': [
+      ['notEmpty'],
+      ['pattern', 'name']
+    ],
+
+    'form2-message': [
+      ['notEmpty'],
+      ['pattern', 'name']
+    ],
+  }
+});
+
+const form3 = new Validator({
+  selector: '#form3',
+  pattern: {},
+  method: {
+    'form3-phone': [
+      ['notEmpty'],
+      ['pattern', 'phone']
+    ],
+
+    'form3-email': [
+      ['notEmpty'],
+      ['pattern', 'email']
+    ],
+
+    'form3-name': [
+      ['notEmpty'],
+      ['pattern', 'name']
+    ],
+  }
+});
+
+form1.init();
+form2.init();
+form3.init();
