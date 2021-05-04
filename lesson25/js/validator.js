@@ -23,8 +23,61 @@ class Validator {
       this.elementsForm.forEach(item => this.check({
         target: item
       }));
+      // Send AJAX-form
       if (this.errors.size) {
         event.preventDefault();
+      } else {
+        const sendForm = () => {
+          const postData = (body, outputData, errorData) => {
+            const request = new XMLHttpRequest();
+            request.addEventListener('readystatechange', () => {
+              if (request.readyState !== 4) {
+                return;
+              }
+              if (request.status === 200) {
+                outputData();
+              } else {
+                errorData(request.status);
+              }
+            });
+            request.open('POST', './server.php');
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send(JSON.stringify(body));
+          };
+
+          const errorMsg = 'Что-то пошло не так...';
+          const loadMsg = document.createElement('img');
+          loadMsg.src = 'images/preloader/preloader.gif';
+          loadMsg.classList.add('preloader-gif');
+          const successMsg = 'Спасибо! Мы скоро с вами свяжемся!';
+
+          const statusMsg = document.createElement('div');
+          statusMsg.style.cssText = `font-size: 2rem; color: #FFFFFF`;
+
+          event.preventDefault();
+          this.form.appendChild(statusMsg);
+          statusMsg.appendChild(loadMsg);
+          const formData = new FormData(this.form);
+          let body = {};
+          formData.forEach((value, key) => {
+            body[key] = value;
+          });
+          postData(body,
+            () => {
+              statusMsg.textContent = successMsg;
+            },
+            (error) => {
+              statusMsg.textContent = errorMsg;
+              console.warn(error)
+            }
+          );
+          
+          this.disableSend();
+          this.inputsReset();
+          this.inputsBlock();
+        };
+
+        sendForm();
       }
     });
   }
@@ -86,6 +139,23 @@ class Validator {
     if (elem.placeholder === 'Неккоректные данные') {
       elem.placeholder = '';
     }
+  }
+
+  disableSend() {
+    const item = this.form.querySelector('.btn');
+    item.disabled = 'disabled';
+    item.style.cursor = 'not-allowed';
+  }
+
+  inputsReset() {
+    this.elementsForm.forEach(item => {
+      item.value = '';
+      item.placeholder = 'Поле было заполнено';
+    });
+  }
+
+  inputsBlock() {
+    this.elementsForm.forEach(item => item.disabled = 'disabled');
   }
 
   setPattern() {
