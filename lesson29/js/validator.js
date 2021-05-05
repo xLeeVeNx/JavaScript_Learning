@@ -27,33 +27,23 @@ class Validator {
       if (this.errors.size) {
         event.preventDefault();
       } else {
-        const sendForm = (body, outputData, errorData) => {
-          return new Promise((resolve, reject) => {
-            const request = new XMLHttpRequest();
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-            
-            request.addEventListener('readystatechange', () => {
-              if (request.readyState !== 4) {
-                return;
-              }
-              if (request.status === 200) {
-                resolve(outputData);
-              } else {
-                reject(errorData, request.status); 
-              }
-            });
-
-            request.send(JSON.stringify(body));
+        const sendForm = (body) => {
+          return fetch('./server.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
           });
         };
 
         const errorMsg = 'Что-то пошло не так...';
+        
         const loadMsg = document.createElement('img');
         loadMsg.src = 'images/preloader/preloader.gif';
         loadMsg.classList.add('preloader-gif');
-        const successMsg = 'Спасибо! Мы скоро с вами свяжемся!';
 
+        const successMsg = 'Спасибо! Мы скоро с вами свяжемся!';
         const statusMsg = document.createElement('div');
         statusMsg.style.cssText = `font-size: 2rem; color: #FFFFFF`;
 
@@ -66,19 +56,14 @@ class Validator {
           body[key] = value;
         });
 
-        sendForm(
-          body,
-          () => {
+        sendForm(body)
+          .then(response => {
+            if (response.status !== 200) throw new Error('Network status is not 200');
             statusMsg.textContent = successMsg;
-          },
-          (error) => {
+          })
+          .catch(error => {
             statusMsg.textContent = errorMsg;
             console.warn(error);
-          })
-          .then(result => result())
-          .catch( (error, status) => {
-            error();
-            console.error(status);
           });
 
         this.disableSend();
