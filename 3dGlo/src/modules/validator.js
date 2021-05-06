@@ -1,3 +1,5 @@
+import { form } from './sendForm.js';
+
 class Validator {
   constructor({
     selector,
@@ -23,48 +25,11 @@ class Validator {
       this.elementsForm.forEach(item => this.check({
         target: item
       }));
-      // Send AJAX-form
       if (this.errors.size) {
         event.preventDefault();
       } else {
-        const sendForm = (body) => {
-          return fetch('./server.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
-          });
-        };
-
-        const errorMsg = 'Что-то пошло не так...';
-        
-        const loadMsg = document.createElement('img');
-        loadMsg.src = 'images/preloader/preloader.gif';
-        loadMsg.classList.add('preloader-gif');
-
-        const successMsg = 'Спасибо! Мы скоро с вами свяжемся!';
-        const statusMsg = document.createElement('div');
-        statusMsg.style.cssText = `font-size: 2rem; color: #FFFFFF`;
-
-        event.preventDefault();
-        this.form.appendChild(statusMsg);
-        statusMsg.appendChild(loadMsg);
-        const formData = new FormData(this.form);
-        let body = {};
-        formData.forEach((value, key) => {
-          body[key] = value;
-        });
-
-        sendForm(body)
-          .then(response => {
-            if (response.status !== 200) throw new Error('Network status is not 200');
-            statusMsg.textContent = successMsg;
-          })
-          .catch(error => {
-            statusMsg.textContent = errorMsg;
-            console.warn(error);
-          });
+        // Send AJAX-form
+        form(this.form, event);
 
         this.disableSend();
         this.inputsReset();
@@ -164,74 +129,4 @@ class Validator {
   }
 }
 
-const form1 = new Validator({
-  selector: '#form1',
-  pattern: {},
-  method: {
-    'form1-phone': [
-      ['notEmpty'],
-      ['pattern', 'phone']
-    ],
-
-    'form1-email': [
-      ['notEmpty'],
-      ['pattern', 'email']
-    ],
-
-    'form1-name': [
-      ['notEmpty'],
-      ['pattern', 'name']
-    ],
-  }
-});
-
-const form2 = new Validator({
-  selector: '#form2',
-  pattern: {},
-  method: {
-    'form2-phone': [
-      ['notEmpty'],
-      ['pattern', 'phone']
-    ],
-
-    'form2-email': [
-      ['notEmpty'],
-      ['pattern', 'email']
-    ],
-
-    'form2-name': [
-      ['notEmpty'],
-      ['pattern', 'name']
-    ],
-
-    'form2-message': [
-      ['notEmpty'],
-      ['pattern', 'name']
-    ],
-  }
-});
-
-const form3 = new Validator({
-  selector: '#form3',
-  pattern: {},
-  method: {
-    'form3-phone': [
-      ['notEmpty'],
-      ['pattern', 'phone']
-    ],
-
-    'form3-email': [
-      ['notEmpty'],
-      ['pattern', 'email']
-    ],
-
-    'form3-name': [
-      ['notEmpty'],
-      ['pattern', 'name']
-    ],
-  }
-});
-
-form1.init();
-form2.init();
-form3.init();
+export { Validator };
