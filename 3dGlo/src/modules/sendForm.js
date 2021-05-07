@@ -1,6 +1,6 @@
 const form = (form, event) => {
   const sendForm = body => {
-    return fetch('../../server.php', {
+    return fetch('./server.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
