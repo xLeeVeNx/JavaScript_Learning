@@ -1,3 +1,4 @@
+import { popupCloseAnimation } from './popupCloseAnimation.js';
 import { form } from './sendForm.js';
 
 class Validator {
@@ -7,9 +8,14 @@ class Validator {
     method
   }) {
     this.form = document.querySelector(selector);
+    this.placeholders = [];
     this.elementsForm = [...this.form.elements].filter(item => {
       return item.tagName.toLowerCase() !== 'button' &&
         item.type.toLowerCase() !== 'button';
+    });
+
+    this.elementsForm.forEach(item => {
+      this.placeholders.push(item.placeholder);
     });
 
     this.pattern = pattern;
@@ -31,9 +37,27 @@ class Validator {
         // Send AJAX-form
         form(this.form, event);
 
-        this.disableSend();
         this.inputsReset();
-        this.inputsBlock();
+
+        document.querySelectorAll('.btn').forEach(item => {
+          item.disabled = 'disabled';
+          setTimeout(() => {
+            item.removeAttribute('disabled');
+          }, 4000);
+        });
+
+        this.elementsForm.forEach(item => {
+          item.disabled = 'disabled';
+          setTimeout(() => {
+            item.removeAttribute('disabled');
+          }, 4000);
+        });
+
+        if (this.form.closest('.popup')) {
+          setTimeout(() => {
+            popupCloseAnimation();
+          }, 3000);
+        }
       }
     });
   }
@@ -88,7 +112,7 @@ class Validator {
     elem.placeholder = 'Неккоректные данные';
   }
 
-  showSuccess(elem) {
+  showSuccess(elem, placeholder) {
     elem.classList.remove('error');
     elem.classList.add('success');
 
@@ -97,21 +121,12 @@ class Validator {
     }
   }
 
-  disableSend() {
-    const item = this.form.querySelector('.btn');
-    item.disabled = 'disabled';
-    item.style.cursor = 'not-allowed';
-  }
-
   inputsReset() {
-    this.elementsForm.forEach(item => {
+    this.elementsForm.forEach( (item, index) => {
       item.value = '';
-      item.placeholder = 'Поле было заполнено';
+      item.placeholder = this.placeholders[index];
+      item.classList.remove('success');
     });
-  }
-
-  inputsBlock() {
-    this.elementsForm.forEach(item => item.disabled = 'disabled');
   }
 
   setPattern() {

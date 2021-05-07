@@ -100,7 +100,7 @@ form1.init();
 form2.init();
 form3.init();
 
-const deadline = new Date(2021, 4, 1, 23, 59);
+const deadline = new Date(2021, 4, 7, 23, 59);
 timer(deadline);
 
 toggleMenu();

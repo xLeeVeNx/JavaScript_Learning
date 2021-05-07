@@ -12,8 +12,10 @@ const toggleMenu = () => {
     let target = event.target;
 
     if (target.classList.contains('close-btn')) {
+      event.preventDefault();
       handlerMenu();
     } else if (target.closest('a[href="#service-block"]')) {
+      menuList.classList.remove('active-menu');
       event.preventDefault();
       smoothScroll(event.target.closest('a[href="#service-block"]'));
     } else if (target.closest('.menu')) {

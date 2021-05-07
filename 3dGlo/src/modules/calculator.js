@@ -36,7 +36,7 @@ const calculator = (price = 100) => {
         result.textContent = count;
       } else {
         clearInterval(id);
-        result.textContent = total;
+        result.textContent = total.toFixed();
       }
     }, 0);
   };
